@@ -5,40 +5,52 @@
   "framework": "nextjs",
   "env": {
     "NEXTAUTH_SECRET": {
-      "description": "NextAuth secret key - generate with: openssl rand -base64 32"
+      "description": "NextAuth secret key - generate with: openssl rand -base64 32",
+      "type": "string"
     },
     "NEXTAUTH_URL": {
-      "description": "NextAuth callback URL"
+      "description": "NextAuth callback URL",
+      "type": "string"
     },
     "ANTHROPIC_API_KEY": {
-      "description": "Anthropic Claude API key from console.anthropic.com"
+      "description": "Anthropic Claude API key from console.anthropic.com",
+      "type": "string"
     },
     "NEXT_PUBLIC_FIREBASE_API_KEY": {
-      "description": "Firebase Web Config - API Key"
+      "description": "Firebase Web Config - API Key",
+      "type": "string"
     },
     "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN": {
-      "description": "Firebase Web Config - Auth Domain"
+      "description": "Firebase Web Config - Auth Domain",
+      "type": "string"
     },
     "NEXT_PUBLIC_FIREBASE_PROJECT_ID": {
-      "description": "Firebase Web Config - Project ID"
+      "description": "Firebase Web Config - Project ID",
+      "type": "string"
     },
     "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET": {
-      "description": "Firebase Web Config - Storage Bucket"
+      "description": "Firebase Web Config - Storage Bucket",
+      "type": "string"
     },
     "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": {
-      "description": "Firebase Web Config - Messaging Sender ID"
+      "description": "Firebase Web Config - Messaging Sender ID",
+      "type": "string"
     },
     "NEXT_PUBLIC_FIREBASE_APP_ID": {
-      "description": "Firebase Web Config - App ID"
+      "description": "Firebase Web Config - App ID",
+      "type": "string"
     },
     "FIREBASE_ADMIN_PROJECT_ID": {
-      "description": "Firebase Admin SDK - Project ID"
+      "description": "Firebase Admin SDK - Project ID",
+      "type": "string"
     },
     "FIREBASE_ADMIN_CLIENT_EMAIL": {
-      "description": "Firebase Admin SDK - Service Account Email"
+      "description": "Firebase Admin SDK - Service Account Email",
+      "type": "string"
     },
     "FIREBASE_ADMIN_PRIVATE_KEY": {
-      "description": "Firebase Admin SDK - Private Key (with escaped newlines: replace \\n with newlines)"
+      "description": "Firebase Admin SDK - Private Key (with escaped newlines: replace \\n with newlines)",
+      "type": "string"
     }
   }
 }
