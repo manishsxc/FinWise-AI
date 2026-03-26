@@ -31,13 +31,13 @@ function calc(id: Scenario, vals: Record<string, number>): Record<string, string
     case 'bonus': {
       const invest = vals.bonus * 0.6, ef = vals.bonus * 0.2, tax = vals.bonus * 0.2;
       const corpus = invest * Math.pow(1.12, vals.yrs);
-      return { 'Invest in equity MF (60%)': fmt(invest), 'Emergency top-up (20%)': fmt(ef), 'Tax-saving ELSS/NPS (20%)': fmt(tax), 'Corpus after ' + vals.yrs + ' years @12%': fmtL(corpus), 'Tax saved on ELSS': fmt(tax * 0.3), 'Wealth created (vs FD)': fmtL(corpus - vals.bonus) };
+      return { 'Invest in equity MF (60%)': fmt(invest), 'Emergency top-up (20%)': fmt(ef), 'Tax-saving ELSS/NPS (20%)': fmt(tax), [`Corpus after ${vals.yrs} years @12%`]: fmtL(corpus), 'Tax saved on ELSS': fmt(tax * 0.3), 'Wealth created (vs FD)': fmtL(corpus - vals.bonus) };
     }
     case 'sip': {
       const r = 0.12 / 12, n = vals.yrs * 12;
       const c1 = vals.cur * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
       const c2 = (vals.cur + vals.inc) * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
-      return { 'Current SIP corpus': fmtL(c1), 'New SIP corpus': fmtL(c2), 'Extra wealth created': fmtL(c2 - c1), 'Additional monthly cost': fmt(vals.inc), 'Return on extra invest': ((c2 - c1) / (vals.inc * n) * 100).toFixed(0) + '% over investment', 'Retire earlier by': ((c2 - c1) / (vals.inc * 12 * 8)).toFixed(1) + ' years' };
+      return { 'Current SIP corpus': fmtL(c1), 'New SIP corpus': fmtL(c2), 'Extra wealth created': fmtL(c2 - c1), 'Additional monthly cost': fmt(vals.inc), [`Return on extra invest`]: `${((c2 - c1) / (vals.inc * n) * 100).toFixed(0)}% over investment`, [`Retire earlier by`]: `${((c2 - c1) / (vals.inc * 12 * 8)).toFixed(1)} years` };
     }
     case 'homeloan': {
       const loan = vals.property * (1 - vals.dp / 100);
@@ -45,7 +45,7 @@ function calc(id: Scenario, vals: Record<string, number>): Record<string, string
       const emi = loan * rate * Math.pow(1 + rate, n) / (Math.pow(1 + rate, n) - 1);
       const totalPay = emi * n, interest = totalPay - loan;
       const emiPct = (emi / 80000 * 100).toFixed(1);
-      return { 'Loan amount': fmtL(loan), 'Monthly EMI': fmt(emi), 'Total interest paid': fmtL(interest), 'EMI to income ratio': emiPct + '% (safe if <40%)', 'Total repayment': fmtL(totalPay), 'Safe to take?': +emiPct < 40 ? '✓ Yes — within safe limit' : '⚠ EMI too high for income' };
+      return { 'Loan amount': fmtL(loan), 'Monthly EMI': fmt(emi), 'Total interest paid': fmtL(interest), [`EMI to income ratio`]: `${emiPct}% (safe if <40%)`, 'Total repayment': fmtL(totalPay), 'Safe to take?': +emiPct < 40 ? '✓ Yes — within safe limit' : '⚠ EMI too high for income' };
     }
     case 'marriage': {
       const gap = Math.max(0, vals.budget - vals.saved);
@@ -58,7 +58,7 @@ function calc(id: Scenario, vals: Record<string, number>): Record<string, string
       const eduCorpus = vals.edu;
       const r = 0.12 / 12, n = 18 * 12;
       const eduSIP = eduCorpus * r / (Math.pow(1 + r, n) - 1);
-      return { 'Extra monthly expenses': fmt(extraExp) + '/month', 'Emergency fund top-up': fmt(efTop), 'Education SIP (start now)': fmt(eduSIP) + '/month for 18 yrs', 'Term insurance increase': fmt(vals.exp * 12 * 5) + ' more cover', 'Maternity/paternity leave fund': fmt(vals.exp * 3), 'Best investment for child': 'SSY (Sukanya) or equity MF' };
+      return { [`Extra monthly expenses`]: `${fmt(extraExp)}/month`, 'Emergency fund top-up': fmt(efTop), [`Education SIP (start now)`]: `${fmt(eduSIP)}/month for 18 yrs`, [`Term insurance increase`]: `${fmt(vals.exp * 12 * 5)} more cover`, 'Maternity/paternity leave fund': fmt(vals.exp * 3), 'Best investment for child': 'SSY (Sukanya) or equity MF' };
     }
   }
 }

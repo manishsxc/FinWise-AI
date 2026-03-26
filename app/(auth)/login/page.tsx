@@ -1,12 +1,12 @@
 'use client';
 import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Eye, EyeOff, Loader2, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-export default function LoginPage() {
+function LoginContent() {
   const { status } = useSession();
   const router = useRouter();
   const params = useSearchParams();
@@ -87,5 +87,13 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#060a12] flex items-center justify-center"><div className="text-white">Loading...</div></div>}>
+      <LoginContent />
+    </Suspense>
   );
 }
