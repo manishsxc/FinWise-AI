@@ -1,0 +1,23 @@
+{
+  "name": "FinWise AI — India's Financial Advisor",
+  "short_name": "FinWise AI",
+  "description": "AI-powered financial advisor for every Indian. Built by Sumit Kumar & Mehak Singhal, KIIT Bhubaneswar.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060a12",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-IN",
+  "categories": ["finance", "productivity"],
+  "icons": [
+    { "src": "/logo.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable any" },
+    { "src": "/logo.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable any" }
+  ],
+  "shortcuts": [
+    { "name": "Dashboard", "url": "/dashboard" },
+    { "name": "AI Advisor", "url": "/advisor" },
+    { "name": "Tax Wizard", "url": "/tools#tax" },
+    { "name": "FIRE Planner", "url": "/tools#fire" }
+  ]
+}
