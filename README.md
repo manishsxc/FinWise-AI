@@ -1,4 +1,4 @@
-# FinWise AI — Firebase Setup (5 Minutes)
+# FinWise AI
 
 ## Step 1: Firebase Setup (3 minutes)
 
