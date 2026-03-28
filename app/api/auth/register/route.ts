@@ -45,10 +45,11 @@ export async function POST(req: NextRequest) {
       updatedAt: now,
     })
 
-    // Create empty profile
+    // Create empty profile (marked as incomplete for onboarding)
     await db.collection('profiles').doc(userRef.id).set({
       userId: userRef.id,
-      moneyScore: null,
+      moneyScore: 0,
+      isProfileComplete: false, // Flag for onboarding flow
       createdAt: now,
       updatedAt: now,
     })

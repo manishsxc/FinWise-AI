@@ -131,7 +131,7 @@ Continued use of FinWise AI after changes constitutes acceptance of the updated 
   },
   {
     title: '10. Contact Us',
-    content: `**Privacy Officer:** Rahul Sharma
+    content: `**Privacy Officer:** FinWise AI Team
 **Email:** sumitranjanhisu@gmail.com
 **Phone:** +91-73660-06363
 **Address:** FinWise AI Pvt. Ltd., 123, KIIT University, Bhubaneswar, Odisha — 751024

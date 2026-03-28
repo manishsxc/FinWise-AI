@@ -59,9 +59,23 @@ export async function PATCH(req: NextRequest) {
     const db = getAdminDb()
     
     try {
-      await db.collection('profiles').doc(userId).set(
-        { ...updates, updatedAt: new Date().toISOString() }, { merge: true }
-      )
+      // If name is being updated, update it in both collections
+      const updatePromises = [
+        db.collection('profiles').doc(userId).set(
+          { ...updates, updatedAt: new Date().toISOString() }, { merge: true }
+        )
+      ]
+      
+      // Also update user name if provided
+      if (updates.name) {
+        updatePromises.push(
+          db.collection('users').doc(userId).set(
+            { name: updates.name, updatedAt: new Date().toISOString() }, { merge: true }
+          )
+        )
+      }
+      
+      await Promise.all(updatePromises)
       return NextResponse.json({ success: true })
     } catch (dbErr: any) {
       if (dbErr?.code === 14 || dbErr?.message?.includes('UNABLE_TO_GET_ISSUER_CERT')) {

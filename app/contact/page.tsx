@@ -176,11 +176,11 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="label">Your Full Name</label>
-                    <input type="text" className="input" placeholder="Rahul Sharma" required />
+                    <input type="text" className="input" placeholder="Your full name" required />
                   </div>
                   <div>
                     <label className="label">Email Address</label>
-                    <input type="email" className="input" placeholder="rahul@example.com" required />
+                    <input type="email" className="input" placeholder="your.email@example.com" required />
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -1,0 +1,12 @@
+.git
+.gitignore
+README.md
+DEPLOYMENT.md
+SETUP.md
+VERIFICATION.md
+.env.local
+.env.*.local
+node_modules
+.next
+coverage
+*.log

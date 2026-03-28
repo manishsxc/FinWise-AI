@@ -94,7 +94,8 @@ export const authOptions: NextAuthOptions = {
             }
             const profileDoc = {
               userId: user.id || email,
-              moneyScore: null,
+              moneyScore: 0,
+              isProfileComplete: false, // Mark for onboarding
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString(),
             }

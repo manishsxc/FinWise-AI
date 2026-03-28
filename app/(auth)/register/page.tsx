@@ -100,10 +100,10 @@ export default function RegisterPage() {
 
           <form onSubmit={handleRegister} className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
-              <div><label className="label">Full Name</label><input type="text" value={form.name} onChange={e => setForm(p => ({...p,name:e.target.value}))} className="input" placeholder="Rahul Sharma" required autoComplete="name" /></div>
-              <div><label className="label">Phone (optional)</label><input type="tel" value={form.phone} onChange={e => setForm(p => ({...p,phone:e.target.value}))} className="input" placeholder="+91 73660 06363" autoComplete="tel" /></div>
+              <div><label className="label">Full Name</label><input type="text" value={form.name} onChange={e => setForm(p => ({...p,name:e.target.value}))} className="input" placeholder="First Last" required autoComplete="name" /></div>
+              <div><label className="label">Phone (optional)</label><input type="tel" value={form.phone} onChange={e => setForm(p => ({...p,phone:e.target.value}))} className="input" placeholder="10-digit number" autoComplete="tel" /></div>
             </div>
-            <div><label className="label">Email Address</label><input type="email" value={form.email} onChange={e => setForm(p => ({...p,email:e.target.value}))} className="input" placeholder="rahul@example.com" required autoComplete="email" /></div>
+            <div><label className="label">Email Address</label><input type="email" value={form.email} onChange={e => setForm(p => ({...p,email:e.target.value}))} className="input" placeholder="your.email@domain.com" required autoComplete="email" /></div>
             <div>
               <label className="label">Password</label>
               <div className="relative">
