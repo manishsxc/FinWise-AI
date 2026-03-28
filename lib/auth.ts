@@ -4,6 +4,22 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
 import { getAdminDb, getDoc, setDoc } from './firebase-admin'
 
+// Simple in-memory cache for user lookups (clear on restart)
+const userCache = new Map<string, { data: any; timestamp: number }>()
+const CACHE_TTL = 5 * 60 * 1000 // 5 minutes
+
+function getCachedUser(email: string) {
+  const cached = userCache.get(email)
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    return cached.data
+  }
+  return null
+}
+
+function setCachedUser(email: string, data: any) {
+  userCache.set(email, { data, timestamp: Date.now() })
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -52,32 +68,50 @@ export const authOptions: NextAuthOptions = {
       if (account?.provider === 'google' && user.email) {
         try {
           const db = getAdminDb()
+          const email = user.email.toLowerCase()
+          
+          // Check cache first
+          let cachedUser = getCachedUser(email)
+          if (cachedUser !== null) {
+            return true
+          }
+
           const snap = await db.collection('users')
-            .where('email', '==', user.email)
+            .where('email', '==', email)
             .limit(1)
             .get()
 
           if (snap.empty) {
-            // New user — create record
-            await db.collection('users').doc(user.id || user.email).set({
+            // New user — create both user and profile in parallel
+            const userDoc = {
               name: user.name,
-              email: user.email,
+              email: email,
               image: user.image,
               plan: 'FREE',
               provider: 'google',
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString(),
-            })
-            // Create profile
-            await db.collection('profiles').doc(user.id || user.email).set({
-              userId: user.id || user.email,
+            }
+            const profileDoc = {
+              userId: user.id || email,
               moneyScore: null,
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString(),
-            })
+            }
+            
+            // Parallelize writes
+            await Promise.all([
+              db.collection('users').doc(user.id || email).set(userDoc),
+              db.collection('profiles').doc(user.id || email).set(profileDoc),
+            ])
+            
+            setCachedUser(email, userDoc)
+          } else {
+            setCachedUser(email, snap.docs[0].data())
           }
         } catch (e) {
           console.error('Google sign in error:', e)
+          // Don't block sign-in on error, but log it
         }
       }
       return true
@@ -86,15 +120,30 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id
-        // Get plan from Firestore
+        token.email = user.email
+        
+        // Use cache for faster lookups
         try {
-          const db = getAdminDb()
-          const snap = await db.collection('users')
-            .where('email', '==', user.email)
-            .limit(1)
-            .get()
-          token.plan = snap.empty ? 'FREE' : (snap.docs[0].data().plan || 'FREE')
-          token.id = snap.empty ? user.id : snap.docs[0].id
+          const cached = getCachedUser(user.email || '')
+          if (cached) {
+            token.plan = cached.plan || 'FREE'
+            token.id = user.id
+          } else if (user.email) {
+            const db = getAdminDb()
+            const snap = await db.collection('users')
+              .where('email', '==', user.email.toLowerCase())
+              .limit(1)
+              .get()
+            
+            if (!snap.empty) {
+              const userData = snap.docs[0].data()
+              token.plan = userData.plan || 'FREE'
+              token.id = snap.docs[0].id
+              setCachedUser(user.email.toLowerCase(), userData)
+            } else {
+              token.plan = 'FREE'
+            }
+          }
         } catch {
           token.plan = 'FREE'
         }
